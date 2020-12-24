@@ -8,6 +8,7 @@ Configfile::Configfile(String c)
 {
     filename = c;
 }
+
 boolean Configfile::haveAlreadyConfig()
 {
     return haveconfig;
