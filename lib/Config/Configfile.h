@@ -3,13 +3,13 @@
 #include <Arduino.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
-#define buffersize 2048
+#define CONFIGFILE_buffersize 2048
 class Configfile
 {
 private:
     boolean open = true;
     File configfile;
-    StaticJsonDocument<buffersize> doc;
+    StaticJsonDocument<CONFIGFILE_buffersize> doc;
     boolean haveconfig = true;
 
 public:

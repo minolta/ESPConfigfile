@@ -42,8 +42,8 @@ String Configfile::getConfig(String valuename)
 void Configfile::saveConfig()
 {
     File file = SPIFFS.open("/config.cfg", "w");
-    char buf[buffersize];
-    serializeJsonPretty(doc, buf, buffersize);
+    char buf[CONFIGFILE_buffersize];
+    serializeJsonPretty(doc, buf, CONFIGFILE_buffersize);
     file.printf("%s\n", buf);
     file.close();
 }
