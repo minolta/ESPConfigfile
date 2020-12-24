@@ -49,7 +49,6 @@ void Configfile::saveConfig()
 }
 void Configfile::loadConfig()
 {
-
     File file = SPIFFS.open("/config.cfg", "r");
     String b = "";
     while (file.available())
