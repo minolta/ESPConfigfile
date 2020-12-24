@@ -1,10 +1,21 @@
 #include <Arduino.h>
 #include "Configfile.h"
 
-Configfile cf;
+Configfile cf("/x1122.cfg");
 
 void setup() {
   // put your setup code here, to run once:
+  Serial.begin(9600);
+  Serial.println("Start");
+  Serial.printf("\nOpen file is ok %d\n",cf.openFile());
+  Serial.printf("Have config ? %d\n",cf.haveAlreadyConfig());
+  // String c = cf.getConfig("xx");
+
+  //  Serial.printf("xx: %s\n",c);
+  // cf.addConfig("xx","sss");
+
+  Serial.println("End");
+  // Serial.println(cf.haveAlreadyConfig());
 }
 
 void loop() {

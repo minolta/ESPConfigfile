@@ -3,7 +3,10 @@
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 #include "Configfile.h"
-
+void open(void)
+{
+    TEST_ASSERT_EQUAL(false, SPIFFS.exists("/1111.cfg"));
+}
 void makedoc(void)
 {
     DynamicJsonDocument doc(2048);
@@ -57,8 +60,6 @@ void readConfig(void)
         return;
     }
 
-
-
     doc1["errortime"] = "1";
     saveConfig();
     doc1.clear();
@@ -69,7 +70,7 @@ void readConfig(void)
     TEST_ASSERT_EQUAL_STRING("1", e.c_str());
 }
 
-void addConfig(String valuename,String value)
+void addConfig(String valuename, String value)
 {
     doc1.clear();
     loadConfig();
@@ -83,39 +84,75 @@ String getConfig(String valuename)
 }
 void TestAddConfig(void)
 {
-    addConfig("D1init","1");
+    addConfig("D1init", "1");
 
     loadConfig();
 
     String d1init = doc1["D1init"];
-    TEST_ASSERT_EQUAL_STRING("1",d1init.c_str());
-    
-
+    TEST_ASSERT_EQUAL_STRING("1", d1init.c_str());
 }
 
 void TestGetvalue()
 {
-    addConfig("version","10");
+    addConfig("version", "10");
 
     String version = getConfig("version");
-    TEST_ASSERT_EQUAL_STRING("10",version.c_str());
+    TEST_ASSERT_EQUAL_STRING("10", version.c_str());
 }
 void havefile(void)
 {
-    Configfile c;
-    TEST_ASSERT_EQUAL(true,c.haveAlreadyConfig());
+    Configfile c("/t.xf");
+    c.openFile();
+    //
+    // TEST_ASSERT_EQUAL(true, c.haveAlreadyConfig());
+
+    c.addConfig("1", "1");
+
+    String v = c.getConfig("1");
+
+    TEST_ASSERT_EQUAL_STRING("1", v.c_str());
+
     // Configfile cfg =  Configfile();
     // TEST_ASSERT_EQUAL(true,cfg.haveAreadyConfig());
+}
+void getFilename()
+{
+    Configfile cc("/getfilename.txt");
+    TEST_ASSERT_EQUAL_STRING("/getfilename.txt", cc.getfilename().c_str());
+}
+void readValue()
+{
+    Configfile cc("/t.xf");
+    cc.addConfig("1", "1");
+    String v = cc.getConfig("1");
+
+    TEST_ASSERT_EQUAL_STRING("1", v.c_str());
+}
+void TestloadConfig()
+{
+    Configfile cc("/t1.xf");
+    //  cc.loadConfig();
+    TEST_ASSERT_EQUAL(1, cc.openFile());
+    cc.addConfig("1", "1");
+    cc.addConfig("2", "2");
+    cc.addConfig("3", "test");
+    TEST_ASSERT_EQUAL(1, cc.loadConfig());
+    //  cc.loadConfig();
+    TEST_ASSERT_EQUAL(3, cc.configsize());
 }
 void setup()
 {
 
-  
+    Serial.begin(9600);
     // NOTE!!! Wait for >2 secs
     // if board doesn't support software reset via Serial.DTR/RTS
     delay(2000);
 
     UNITY_BEGIN();
+    RUN_TEST(TestloadConfig);
+    RUN_TEST(open);
+    RUN_TEST(getFilename);
+    RUN_TEST(readValue);
     RUN_TEST(makedoc);
     RUN_TEST(readConfig);
     RUN_TEST(TestAddConfig);

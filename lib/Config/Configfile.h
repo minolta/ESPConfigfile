@@ -10,12 +10,15 @@ private:
     boolean open = true;
     File configfile;
     StaticJsonDocument<CONFIGFILE_buffersize> doc;
-    boolean haveconfig = true;
+    boolean haveconfig = false;
+    String filename;
 
 public:
     Configfile();
+    Configfile(String);
+    boolean openFile(void);
     void saveConfig();
-    void loadConfig();
+    int loadConfig();
     String getConfig(String);
     void addConfig(String, String);
     //สำหรับอ่าน config
@@ -23,6 +26,8 @@ public:
     //สำหรับเขียน config
     boolean setConfig(String, String);
     boolean haveAlreadyConfig();
+    String getfilename(void);
+    int configsize(void);
 };
 
 #endif
