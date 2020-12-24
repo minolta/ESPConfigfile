@@ -1,6 +1,5 @@
 #ifndef CONFIGFILE_H
 #define CONFIGFILE_H
-
 #include <Arduino.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
@@ -23,8 +22,7 @@ public:
     String readConfig(String);
     //สำหรับเขียน config
     boolean setConfig(String, String);
-    boolean haveAreadyConfig();
-    
+    boolean haveAlreadyConfig();
 };
 
 #endif

@@ -2,6 +2,7 @@
 #include <unity.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
+#include "Configfile.h"
 
 void makedoc(void)
 {
@@ -99,8 +100,17 @@ void TestGetvalue()
     String version = getConfig("version");
     TEST_ASSERT_EQUAL_STRING("10",version.c_str());
 }
+void havefile(void)
+{
+    Configfile c;
+    TEST_ASSERT_EQUAL(true,c.haveAlreadyConfig());
+    // Configfile cfg =  Configfile();
+    // TEST_ASSERT_EQUAL(true,cfg.haveAreadyConfig());
+}
 void setup()
 {
+
+  
     // NOTE!!! Wait for >2 secs
     // if board doesn't support software reset via Serial.DTR/RTS
     delay(2000);
@@ -110,6 +120,7 @@ void setup()
     RUN_TEST(readConfig);
     RUN_TEST(TestAddConfig);
     RUN_TEST(TestGetvalue);
+    RUN_TEST(havefile);
     // TEST_ASSERT_EQUAL_STRING("forpi", "x");
     // RUN_TEST(test_function_calculator_subtraction);
     // RUN_TEST(test_function_calculator_multiplication);

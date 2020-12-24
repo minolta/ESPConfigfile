@@ -1,4 +1,7 @@
 #include <Arduino.h>
+#include "Configfile.h"
+
+Configfile cf;
 
 void setup() {
   // put your setup code here, to run once:

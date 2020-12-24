@@ -23,7 +23,7 @@ Configfile::Configfile()
 
     // configfile = SPIFFS.open("/config.cfg", "r");
 }
-boolean Configfile::haveAreadyConfig()
+boolean Configfile::haveAlreadyConfig()
 {
     return haveconfig;
 }
