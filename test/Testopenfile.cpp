@@ -125,11 +125,11 @@ void readValue()
     Configfile cc("/t.xf");
     cc.openFile();
     cc.addConfig("1", "1");
-    cc.addConfig("ssid","forpi");
+    cc.addConfig("ssid", "forpi");
     String v = cc.getConfig("1");
     String ssid = cc.getConfig("ssid");
     TEST_ASSERT_EQUAL_STRING("1", v.c_str());
-    TEST_ASSERT_EQUAL_STRING("forpi",ssid.c_str());
+    TEST_ASSERT_EQUAL_STRING("forpi", ssid.c_str());
 }
 void TestloadConfig()
 {
@@ -140,7 +140,7 @@ void TestloadConfig()
     cc.addConfig("1", "1");
     cc.addConfig("2", "2");
     cc.addConfig("3", "test");
-    cc.addConfig("ssid","forpi");
+    cc.addConfig("ssid", "forpi");
     TEST_ASSERT_EQUAL(1, cc.loadConfig());
     //  cc.loadConfig();
     TEST_ASSERT_EQUAL(4, cc.configsize());
@@ -152,8 +152,16 @@ void Testloadall()
     cc.addConfig("1", "1");
     cc.addConfig("2", "2");
     cc.addConfig("3", "test");
-    DynamicJsonDocument d =  cc.getAll();
+    DynamicJsonDocument d = cc.getAll();
     TEST_ASSERT_EQUAL(3, d.size());
+}
+void getDefault(void)
+{
+
+    Configfile cc("/config.cfg");
+    cc.openFile();
+    String value = cc.getConfig("testdefault","default");
+    TEST_ASSERT_EQUAL_STRING("default",value.c_str());
 }
 void setup()
 {
@@ -165,6 +173,7 @@ void setup()
 
     UNITY_BEGIN();
     RUN_TEST(TestloadConfig);
+    RUN_TEST(getDefault);
     RUN_TEST(open);
     RUN_TEST(Testloadall);
     RUN_TEST(getFilename);
@@ -174,16 +183,7 @@ void setup()
     RUN_TEST(TestAddConfig);
     RUN_TEST(TestGetvalue);
     RUN_TEST(havefile);
-    // TEST_ASSERT_EQUAL_STRING("forpi", "x");
-    // RUN_TEST(test_function_calculator_subtraction);
-    // RUN_TEST(test_function_calculator_multiplication);
-    // RUN_TEST(test_function_calculator_division);
     TEST_ASSERT_EQUAL(true, SPIFFS.begin(true));
-    // TEST_ASSERT_EQUAL(true, makedoc);
-    // readConfig();
-    // String d = doc1["ssid"];
-    // TEST_ASSERT_EQUAL_STRING("forpi", d.c_str());
-
     UNITY_END();
 }
 

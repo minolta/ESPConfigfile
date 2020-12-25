@@ -74,6 +74,19 @@ String Configfile::getConfig(String valuename)
     loadConfig();
     return doc[valuename];
 }
+String Configfile::getConfig(String valuename, String defaultvalue)
+{
+    loadConfig();
+    if(!doc.containsKey(valuename))
+        return defaultvalue;
+    return  doc[valuename];
+    // Serial.printf("\n getdefault : %d %s\n", value, value);
+    // if (value.equals("null"))
+    // {
+        // return defaultvalue;
+    // }
+    // return value;
+}
 void Configfile::saveConfig()
 {
     File file = SPIFFS.open(filename, "w");

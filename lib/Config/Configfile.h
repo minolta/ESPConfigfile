@@ -20,6 +20,7 @@ public:
     void saveConfig();
     int loadConfig();
     String getConfig(String);
+    String getConfig(String,String);
     void addConfig(String, String);
     //สำหรับอ่าน config
     String readConfig(String);
