@@ -160,8 +160,17 @@ void getDefault(void)
 
     Configfile cc("/config.cfg");
     cc.openFile();
-    String value = cc.getConfig("testdefault","default");
+    String value = cc.getConfig("testdefault1","default");
     TEST_ASSERT_EQUAL_STRING("default",value.c_str());
+}
+void getDefaultAlreadyhave(void)
+{
+
+    Configfile cc("/config.cfg");
+    cc.openFile();
+    cc.addConfig("testdefault","xxxx");
+    String value = cc.getConfig("testdefault","default");
+    TEST_ASSERT_EQUAL_STRING("xxxx",value.c_str());
 }
 void setup()
 {
@@ -172,6 +181,7 @@ void setup()
     delay(2000);
 
     UNITY_BEGIN();
+    RUN_TEST(getDefaultAlreadyhave);
     RUN_TEST(TestloadConfig);
     RUN_TEST(getDefault);
     RUN_TEST(open);
