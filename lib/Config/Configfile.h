@@ -28,6 +28,7 @@ public:
     boolean haveAlreadyConfig();
     String getfilename(void);
     int configsize(void);
+    DynamicJsonDocument getAll(void);
 };
 
 #endif

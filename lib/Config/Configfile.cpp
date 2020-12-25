@@ -63,6 +63,12 @@ void Configfile::addConfig(String valuename, String value)
     doc[valuename] = value;
     saveConfig();
 }
+DynamicJsonDocument Configfile::getAll()
+{
+    doc.clear();
+    loadConfig();
+    return doc;
+}
 String Configfile::getConfig(String valuename)
 {
     loadConfig();

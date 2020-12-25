@@ -123,22 +123,37 @@ void getFilename()
 void readValue()
 {
     Configfile cc("/t.xf");
+    cc.openFile();
     cc.addConfig("1", "1");
+    cc.addConfig("ssid","forpi");
     String v = cc.getConfig("1");
-
+    String ssid = cc.getConfig("ssid");
     TEST_ASSERT_EQUAL_STRING("1", v.c_str());
+    TEST_ASSERT_EQUAL_STRING("forpi",ssid.c_str());
 }
 void TestloadConfig()
 {
     Configfile cc("/t1.xf");
-    //  cc.loadConfig();
+    cc.openFile();
+    cc.loadConfig();
     TEST_ASSERT_EQUAL(1, cc.openFile());
     cc.addConfig("1", "1");
     cc.addConfig("2", "2");
     cc.addConfig("3", "test");
+    cc.addConfig("ssid","forpi");
     TEST_ASSERT_EQUAL(1, cc.loadConfig());
     //  cc.loadConfig();
-    TEST_ASSERT_EQUAL(3, cc.configsize());
+    TEST_ASSERT_EQUAL(4, cc.configsize());
+}
+void Testloadall()
+{
+    Configfile cc("/t11.xf");
+    cc.openFile();
+    cc.addConfig("1", "1");
+    cc.addConfig("2", "2");
+    cc.addConfig("3", "test");
+    DynamicJsonDocument d =  cc.getAll();
+    TEST_ASSERT_EQUAL(3, d.size());
 }
 void setup()
 {
@@ -151,6 +166,7 @@ void setup()
     UNITY_BEGIN();
     RUN_TEST(TestloadConfig);
     RUN_TEST(open);
+    RUN_TEST(Testloadall);
     RUN_TEST(getFilename);
     RUN_TEST(readValue);
     RUN_TEST(makedoc);
