@@ -23,6 +23,7 @@ int Configfile::configsize(void)
  * **/
 boolean Configfile::openFile(void)
 {
+    #if defined (ESP32)
     if (!SPIFFS.begin(true))
     {
         Serial.println("An Error has occurred while mounting SPIFFS");
@@ -34,6 +35,19 @@ boolean Configfile::openFile(void)
     {
         open = true;
     }
+    #else
+    if (!SPIFFS.begin())
+    {
+        Serial.println("An Error has occurred while mounting SPIFFS");
+        open = false;
+        return open;
+        // return;
+    }
+    else
+    {
+        open = true;
+    }
+    #endif
 
     if (SPIFFS.exists(filename))
     {

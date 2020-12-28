@@ -17,7 +17,7 @@ void setup() {
   //  Serial.printf("xx: %s\n",c);
   // cf.addConfig("xx","sss");
 
-  Serial.println("End");
+  Serial.println("End fix buf begin()");
   // Serial.println(cf.haveAlreadyConfig());
 }
 
