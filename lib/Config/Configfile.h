@@ -1,7 +1,12 @@
 #ifndef CONFIGFILE_H
 #define CONFIGFILE_H
 #include <Arduino.h>
-#include <SPIFFS.h>
+// #include <SPIFFS.h>
+#if defined (ESP32)
+  #include <SPIFFS.h>
+#else 
+  #include "FS.h"
+#endif
 #include <ArduinoJson.h>
 #define CONFIGFILE_buffersize 2048
 class Configfile

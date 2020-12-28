@@ -12,6 +12,8 @@ void setup() {
   Serial.printf("Have config ? %d\n",cf.haveAlreadyConfig());
   // String c = cf.getConfig("xx");
 
+  cf.openFile();
+  
   //  Serial.printf("xx: %s\n",c);
   // cf.addConfig("xx","sss");
 
