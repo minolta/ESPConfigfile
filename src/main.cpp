@@ -13,7 +13,7 @@ void setup() {
   // String c = cf.getConfig("xx");
 
   cf.openFile();
-  
+  cf.getConfig("X","x");
   //  Serial.printf("xx: %s\n",c);
   // cf.addConfig("xx","sss");
 

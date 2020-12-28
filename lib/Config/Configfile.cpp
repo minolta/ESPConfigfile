@@ -49,16 +49,16 @@ boolean Configfile::openFile(void)
     }
     #endif
 
-    if (SPIFFS.exists(filename))
+    if (SPIFFS.exists(filename.c_str()))
     {
-        Serial.printf("Have file : %s", filename);
+        Serial.printf("Have file : %s", filename.c_str());
         haveconfig = true;
-        return true;
+        return true; 
     }
     else
     {
         //เปิด file ใหม่
-        configfile = SPIFFS.open(filename, "w");
+        configfile = SPIFFS.open(filename.c_str(), "w");
         configfile.printf("%s\n", "new file");
         configfile.close();
         haveconfig = false;
@@ -103,7 +103,7 @@ String Configfile::getConfig(String valuename, String defaultvalue)
 }
 void Configfile::saveConfig()
 {
-    File file = SPIFFS.open(filename, "w");
+    File file = SPIFFS.open(filename.c_str(), "w");
     char buf[CONFIGFILE_buffersize];
     serializeJsonPretty(doc, buf, CONFIGFILE_buffersize);
     file.printf("%s\n", buf);
@@ -112,9 +112,9 @@ void Configfile::saveConfig()
 int Configfile::loadConfig()
 {
     doc.clear();
-    if (SPIFFS.exists(filename))
+    if (SPIFFS.exists(filename.c_str()))
     {
-        File file = SPIFFS.open(filename, "r");
+        File file = SPIFFS.open(filename.c_str(), "r");
         String b = "";
         while (file.available())
         {
