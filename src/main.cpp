@@ -14,6 +14,7 @@ void setup() {
 
   cf.openFile();
   cf.getConfig("X","x");
+  cf.addConfig("d",200.00);
   //  Serial.printf("xx: %s\n",c);
   // cf.addConfig("xx","sss");
 

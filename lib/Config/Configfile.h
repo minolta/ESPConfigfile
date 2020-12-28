@@ -27,6 +27,10 @@ public:
     String getConfig(String);
     String getConfig(String,String);
     void addConfig(String, String);
+    void addConfig(String, int);
+    void addConfig(String, double);
+    void addConfig(String, long);
+
     //สำหรับอ่าน config
     String readConfig(String);
     //สำหรับเขียน config

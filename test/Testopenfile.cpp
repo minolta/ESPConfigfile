@@ -160,17 +160,37 @@ void getDefault(void)
 
     Configfile cc("/config.cfg");
     cc.openFile();
-    String value = cc.getConfig("testdefault1","default");
-    TEST_ASSERT_EQUAL_STRING("default",value.c_str());
+    String value = cc.getConfig("testdefault1", "default");
+    TEST_ASSERT_EQUAL_STRING("default", value.c_str());
 }
 void getDefaultAlreadyhave(void)
 {
 
     Configfile cc("/config.cfg");
     cc.openFile();
-    cc.addConfig("testdefault","xxxx");
-    String value = cc.getConfig("testdefault","default");
-    TEST_ASSERT_EQUAL_STRING("xxxx",value.c_str());
+    cc.addConfig("testdefault", "xxxx");
+    String value = cc.getConfig("testdefault", "default");
+    TEST_ASSERT_EQUAL_STRING("xxxx", value.c_str());
+}
+void addInt(void)
+{
+    Configfile cc("/config.cfg");
+    cc.openFile();
+    cc.addConfig("int",1);
+
+    String i = cc.getConfig("int","222");
+
+    TEST_ASSERT_EQUAL_STRING("1",i.c_str());
+}
+void addDouble(void)
+{
+    Configfile cc("/config.cfg");
+    cc.openFile();
+    cc.addConfig("double",1.22);
+
+    String i = cc.getConfig("double","222");
+
+    TEST_ASSERT_EQUAL_STRING("1.22",i.c_str());
 }
 void setup()
 {
@@ -182,6 +202,8 @@ void setup()
 
     UNITY_BEGIN();
     RUN_TEST(getDefaultAlreadyhave);
+    RUN_TEST(addInt);
+    RUN_TEST(addDouble);
     RUN_TEST(TestloadConfig);
     RUN_TEST(getDefault);
     RUN_TEST(open);

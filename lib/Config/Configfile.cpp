@@ -77,6 +77,30 @@ void Configfile::addConfig(String valuename, String value)
     doc[valuename] = value;
     saveConfig();
 }
+void Configfile::addConfig(String valuename, int value)
+{
+    doc.clear();
+    if (haveconfig)
+        loadConfig();
+    doc[valuename] = value;
+    saveConfig();
+}
+void Configfile::addConfig(String valuename, long value)
+{
+    doc.clear();
+    if (haveconfig)
+        loadConfig();
+    doc[valuename] = value;
+    saveConfig();
+}
+void Configfile::addConfig(String valuename, double value)
+{
+    doc.clear();
+    if (haveconfig)
+        loadConfig();
+    doc[valuename] = value;
+    saveConfig();
+}
 DynamicJsonDocument Configfile::getAll()
 {
     doc.clear();
