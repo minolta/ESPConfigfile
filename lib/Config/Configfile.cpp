@@ -23,7 +23,7 @@ int Configfile::configsize(void)
  * **/
 boolean Configfile::openFile(void)
 {
-    #if defined (ESP32)
+#if defined(ESP32)
     if (!SPIFFS.begin(true))
     {
         Serial.println("An Error has occurred while mounting SPIFFS");
@@ -35,7 +35,7 @@ boolean Configfile::openFile(void)
     {
         open = true;
     }
-    #else
+#else
     if (!SPIFFS.begin())
     {
         Serial.println("An Error has occurred while mounting SPIFFS");
@@ -47,13 +47,13 @@ boolean Configfile::openFile(void)
     {
         open = true;
     }
-    #endif
+#endif
 
     if (SPIFFS.exists(filename.c_str()))
     {
         Serial.printf("Have file : %s", filename.c_str());
         haveconfig = true;
-        return true; 
+        return true;
     }
     else
     {
@@ -112,16 +112,42 @@ String Configfile::getConfig(String valuename)
     loadConfig();
     return doc[valuename];
 }
+int Configfile::getIntConfig(String valuename)
+{
+    loadConfig();
+    String t = doc[valuename];
+    if (t)
+    {
+        return t.toInt();
+    }
+
+    return NULL;
+}
+double Configfile::getDobuleConfig(String valuename)
+{
+    loadConfig();
+    String t = doc[valuename];
+    return t.toDouble();
+}
+double Configfile::getDobuleConfig(String valuename, String defaultvalue)
+{
+    loadConfig();
+    String t = doc[valuename];
+    double p = t.toDouble();
+    if (p == 0.00)
+        return defaultvalue.toDouble();
+    return p;
+}
 String Configfile::getConfig(String valuename, String defaultvalue)
 {
     loadConfig();
-    if(!doc.containsKey(valuename))
+    if (!doc.containsKey(valuename))
         return defaultvalue;
-    return  doc[valuename];
+    return doc[valuename];
     // Serial.printf("\n getdefault : %d %s\n", value, value);
     // if (value.equals("null"))
     // {
-        // return defaultvalue;
+    // return defaultvalue;
     // }
     // return value;
 }

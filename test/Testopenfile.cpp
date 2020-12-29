@@ -1,3 +1,4 @@
+#define UNITY_INCLUDE_DOUBLE
 #include <Arduino.h>
 #include <unity.h>
 #include <SPIFFS.h>
@@ -176,21 +177,48 @@ void addInt(void)
 {
     Configfile cc("/config.cfg");
     cc.openFile();
-    cc.addConfig("int",1);
+    cc.addConfig("int", 1);
 
-    String i = cc.getConfig("int","222");
+    String i = cc.getConfig("int", "222");
 
-    TEST_ASSERT_EQUAL_STRING("1",i.c_str());
+    TEST_ASSERT_EQUAL_STRING("1", i.c_str());
 }
 void addDouble(void)
 {
     Configfile cc("/config.cfg");
     cc.openFile();
-    cc.addConfig("double",1.22);
+    cc.addConfig("double", 1.22);
 
-    String i = cc.getConfig("double","222");
+    String i = cc.getConfig("double", "222");
 
-    TEST_ASSERT_EQUAL_STRING("1.22",i.c_str());
+    TEST_ASSERT_EQUAL_STRING("1.22", i.c_str());
+}
+void testDoublenull(void)
+{
+    Configfile cc("/config.cfg");
+    cc.openFile();
+
+    String p = cc.getConfig("11");
+
+    double pp = p.toDouble();
+    Serial.print("============== ");
+    Serial.print(pp);
+    // TEST_ASSERT_EQUAL_DOUBLE(0.00, pp);
+}
+void testNull(void)
+{
+    Configfile cc("/config.cfg");
+    cc.openFile();
+
+    cc.addConfig("int", 1);
+    String p = cc.getConfig("int2");
+    // int r = p.toInt();
+    String p1 = cc.getConfig("int");
+    int r = p1.toInt();
+    Serial.println(r);
+
+    TEST_ASSERT_EQUAL_INT(0, p.toInt());
+    TEST_ASSERT_EQUAL_INT(1, r);
 }
 void setup()
 {
@@ -201,7 +229,10 @@ void setup()
     delay(2000);
 
     UNITY_BEGIN();
+    
     RUN_TEST(getDefaultAlreadyhave);
+    RUN_TEST(testNull);
+    RUN_TEST(testDoublenull);
     RUN_TEST(addInt);
     RUN_TEST(addDouble);
     RUN_TEST(TestloadConfig);
