@@ -1,6 +1,8 @@
-#define UNITY_INCLUDE_DOUBLE
+
 #include <Arduino.h>
 #include <unity.h>
+// #define UNITY_INCLUDE_DOUBLE
+// #define UNITY_DOUBLE_PRECISION 1e-12
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 #include "Configfile.h"
@@ -220,6 +222,33 @@ void testNull(void)
     TEST_ASSERT_EQUAL_INT(0, p.toInt());
     TEST_ASSERT_EQUAL_INT(1, r);
 }
+void testGetIntconfig(void)
+{
+    Configfile cc("/config.cfg");
+    cc.openFile();
+
+    cc.addConfig("intvalue", "1");
+    int p = cc.getIntConfig("intvalue","2");
+    TEST_ASSERT_EQUAL_INT(1, p);
+}
+void testGetIntconfigbydefaultint(void)
+{
+    Configfile cc("/config.cfg");
+    cc.openFile();
+
+    cc.addConfig("intvalueint", "2");
+    int p = cc.getIntConfig("intvalueint",2);
+    TEST_ASSERT_EQUAL_INT(2, p);
+}
+void testGetDoubleconfigbydefaultdouble(void)
+{
+    Configfile cc("/config.cfg");
+    cc.openFile();
+
+    cc.addConfig("doublevalue", "2.2");
+    double p = cc.getDobuleConfig("doublevalue",2.2);
+    TEST_ASSERT_EQUAL_DOUBLE(2.2, p);
+}
 void setup()
 {
 
@@ -229,9 +258,12 @@ void setup()
     delay(2000);
 
     UNITY_BEGIN();
-    
+
     RUN_TEST(getDefaultAlreadyhave);
     RUN_TEST(testNull);
+    RUN_TEST(testGetIntconfig);
+    RUN_TEST(testGetIntconfigbydefaultint);
+    RUN_TEST(testGetDoubleconfigbydefaultdouble);
     RUN_TEST(testDoublenull);
     RUN_TEST(addInt);
     RUN_TEST(addDouble);

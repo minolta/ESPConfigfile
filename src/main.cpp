@@ -2,7 +2,11 @@
 #include "Configfile.h"
 
 Configfile cf("/x1122.cfg");
-
+/**
+ * 
+ * 
+ * Update getIntConfig with default value 
+ */
 
 void setup() {
   // put your setup code here, to run once:

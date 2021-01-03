@@ -27,9 +27,11 @@ public:
   String getConfig(String);
   String getConfig(String, String);
   int getIntConfig(String, String);
+  int getIntConfig(String, int);
   int getIntConfig(String);
   double getDobuleConfig(String);
   double getDobuleConfig(String, String);
+  double getDobuleConfig(String, double);
   void addConfig(String, String);
   void addConfig(String, int);
   void addConfig(String, double);

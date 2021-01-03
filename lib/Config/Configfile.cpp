@@ -121,7 +121,31 @@ int Configfile::getIntConfig(String valuename)
         return t.toInt();
     }
 
-    return NULL;
+    return 0;
+}
+int Configfile::getIntConfig(String valuename,String defaultvalue)
+{
+    loadConfig();
+    String t = doc[valuename];
+    if (t)
+    {
+        return t.toInt();
+    }
+
+    return defaultvalue.toInt();
+
+}
+int Configfile::getIntConfig(String valuename,int defaultvalue)
+{
+    loadConfig();
+    String t = doc[valuename];
+    if (t)
+    {
+        return t.toInt();
+    }
+
+    return defaultvalue;
+
 }
 double Configfile::getDobuleConfig(String valuename)
 {
@@ -136,6 +160,15 @@ double Configfile::getDobuleConfig(String valuename, String defaultvalue)
     double p = t.toDouble();
     if (p == 0.00)
         return defaultvalue.toDouble();
+    return p;
+}
+double Configfile::getDobuleConfig(String valuename, double defaultvalue)
+{
+    loadConfig();
+    String t = doc[valuename];
+    double p = t.toDouble();
+    if (p == 0.00)
+        return defaultvalue;
     return p;
 }
 String Configfile::getConfig(String valuename, String defaultvalue)
