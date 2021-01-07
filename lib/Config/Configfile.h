@@ -36,6 +36,7 @@ public:
   void addConfig(String, int);
   void addConfig(String, double);
   void addConfig(String, long);
+  void resettodefault(void);
 
   //สำหรับอ่าน config
   String readConfig(String);

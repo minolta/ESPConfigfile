@@ -123,7 +123,7 @@ int Configfile::getIntConfig(String valuename)
 
     return 0;
 }
-int Configfile::getIntConfig(String valuename,String defaultvalue)
+int Configfile::getIntConfig(String valuename, String defaultvalue)
 {
     loadConfig();
     String t = doc[valuename];
@@ -133,9 +133,8 @@ int Configfile::getIntConfig(String valuename,String defaultvalue)
     }
 
     return defaultvalue.toInt();
-
 }
-int Configfile::getIntConfig(String valuename,int defaultvalue)
+int Configfile::getIntConfig(String valuename, int defaultvalue)
 {
     loadConfig();
     String t = doc[valuename];
@@ -145,7 +144,6 @@ int Configfile::getIntConfig(String valuename,int defaultvalue)
     }
 
     return defaultvalue;
-
 }
 double Configfile::getDobuleConfig(String valuename)
 {
@@ -161,6 +159,15 @@ double Configfile::getDobuleConfig(String valuename, String defaultvalue)
     if (p == 0.00)
         return defaultvalue.toDouble();
     return p;
+}
+/**
+ * 
+ * Reset to default remove file 
+ */
+void Configfile::resettodefault(void)
+{
+    SPIFFS.remove(filename);
+    delay(1000);
 }
 double Configfile::getDobuleConfig(String valuename, double defaultvalue)
 {

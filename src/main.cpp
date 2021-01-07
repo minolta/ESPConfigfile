@@ -6,6 +6,7 @@ Configfile cf("/x1122.cfg");
  * 
  * 
  * Update getIntConfig with default value 
+ * Add resettodefault()
  */
 
 void setup() {
