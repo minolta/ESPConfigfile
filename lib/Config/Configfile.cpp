@@ -15,7 +15,8 @@ boolean Configfile::haveAlreadyConfig()
 }
 int Configfile::configsize(void)
 {
-    return doc.size();
+    DynamicJsonDocument d = load();
+    return d.size();
 }
 /**
  * ถ้า return true แสดงว่ามี file อยู่แล้ว
@@ -71,51 +72,47 @@ String Configfile::getfilename(void)
 }
 void Configfile::addConfig(String valuename, String value)
 {
-    doc.clear();
+    // doc.clear();
     if (haveconfig)
-        loadConfig();
-    doc[valuename] = value;
-    saveConfig();
+    {
+        DynamicJsonDocument d = load();
+        d[valuename] = value;
+        saveConfig(d);
+    }
 }
 void Configfile::addConfig(String valuename, int value)
 {
-    doc.clear();
-    if (haveconfig)
-        loadConfig();
-    doc[valuename] = value;
-    saveConfig();
+    DynamicJsonDocument d = load();
+    d[valuename] = value;
+    saveConfig(d);
 }
 void Configfile::addConfig(String valuename, long value)
 {
-    doc.clear();
-    if (haveconfig)
-        loadConfig();
-    doc[valuename] = value;
-    saveConfig();
+
+    DynamicJsonDocument d = load();
+    d[valuename] = value;
+    saveConfig(d);
 }
 void Configfile::addConfig(String valuename, double value)
 {
-    doc.clear();
-    if (haveconfig)
-        loadConfig();
-    doc[valuename] = value;
-    saveConfig();
+    DynamicJsonDocument d = load();
+    d[valuename] = value;
+    saveConfig(d);
 }
 DynamicJsonDocument Configfile::getAll()
 {
-    doc.clear();
-    loadConfig();
-    return doc;
+    DynamicJsonDocument d = load();
+    return d;
 }
 String Configfile::getConfig(String valuename)
 {
-    loadConfig();
-    return doc[valuename];
+    DynamicJsonDocument d = load();
+    return d[valuename];
 }
 int Configfile::getIntConfig(String valuename)
 {
-    loadConfig();
-    String t = doc[valuename];
+    DynamicJsonDocument d = load();
+    String t = d[valuename];
     if (t)
     {
         return t.toInt();
@@ -125,8 +122,8 @@ int Configfile::getIntConfig(String valuename)
 }
 int Configfile::getIntConfig(String valuename, String defaultvalue)
 {
-    loadConfig();
-    String t = doc[valuename];
+    DynamicJsonDocument d = load();
+    String t = d[valuename];
     if (t)
     {
         return t.toInt();
@@ -136,8 +133,8 @@ int Configfile::getIntConfig(String valuename, String defaultvalue)
 }
 int Configfile::getIntConfig(String valuename, int defaultvalue)
 {
-    loadConfig();
-    String t = doc[valuename];
+    DynamicJsonDocument d = load();
+    String t = d[valuename];
     if (t)
     {
         return t.toInt();
@@ -147,14 +144,14 @@ int Configfile::getIntConfig(String valuename, int defaultvalue)
 }
 double Configfile::getDobuleConfig(String valuename)
 {
-    loadConfig();
-    String t = doc[valuename];
+    DynamicJsonDocument d = load();
+    String t = d[valuename];
     return t.toDouble();
 }
 double Configfile::getDobuleConfig(String valuename, String defaultvalue)
 {
-    loadConfig();
-    String t = doc[valuename];
+    DynamicJsonDocument d = load();
+    String t = d[valuename];
     double p = t.toDouble();
     if (p == 0.00)
         return defaultvalue.toDouble();
@@ -171,8 +168,8 @@ void Configfile::resettodefault(void)
 }
 double Configfile::getDobuleConfig(String valuename, double defaultvalue)
 {
-    loadConfig();
-    String t = doc[valuename];
+    DynamicJsonDocument d = load();
+    String t = d[valuename];
     double p = t.toDouble();
     if (p == 0.00)
         return defaultvalue;
@@ -180,10 +177,11 @@ double Configfile::getDobuleConfig(String valuename, double defaultvalue)
 }
 String Configfile::getConfig(String valuename, String defaultvalue)
 {
-    loadConfig();
-    if (!doc.containsKey(valuename))
+    DynamicJsonDocument d = load();
+    String t = d[valuename];
+    if (!d.containsKey(valuename))
         return defaultvalue;
-    return doc[valuename];
+    return d[valuename];
     // Serial.printf("\n getdefault : %d %s\n", value, value);
     // if (value.equals("null"))
     // {
@@ -193,29 +191,45 @@ String Configfile::getConfig(String valuename, String defaultvalue)
 }
 void Configfile::saveConfig()
 {
+    // File file = SPIFFS.open(filename.c_str(), "w");
+    // char buf[CONFIGFILE_buffersize];
+    // serializeJsonPretty(doc, buf, CONFIGFILE_buffersize);
+    // file.printf("%s\n", buf);
+    // file.close();
+}
+void Configfile::saveConfig(DynamicJsonDocument d)
+{
     File file = SPIFFS.open(filename.c_str(), "w");
-    char buf[CONFIGFILE_buffersize];
-    serializeJsonPretty(doc, buf, CONFIGFILE_buffersize);
-    file.printf("%s\n", buf);
+    serializeJsonPretty(d, file);
     file.close();
 }
-int Configfile::loadConfig()
+// int Configfile::loadConfig()
+// {
+//     doc.clear();
+//     if (SPIFFS.exists(filename.c_str()))
+//     {
+//         File file = SPIFFS.open(filename.c_str(), "r");
+//         String b = "";
+//         while (file.available())
+//         {
+//             b = b + String(file.readStringUntil('\n'));
+//         }
+//         file.close();
+//         deserializeJson(doc, b.c_str(), CONFIGFILE_buffersize);
+//         return 1;
+//     }
+//     else
+//     {
+//         return 0;
+//     }
+// }
+
+DynamicJsonDocument Configfile::load()
 {
-    doc.clear();
-    if (SPIFFS.exists(filename.c_str()))
-    {
-        File file = SPIFFS.open(filename.c_str(), "r");
-        String b = "";
-        while (file.available())
-        {
-            b = b + String(file.readStringUntil('\n'));
-        }
-        file.close();
-        deserializeJson(doc, b.c_str(), CONFIGFILE_buffersize);
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+
+    File file = SPIFFS.open(filename.c_str(), "r");
+    DynamicJsonDocument o(CONFIGFILE_buffersize);
+    deserializeJson(o, file);
+    file.close();
+    return o;
 }

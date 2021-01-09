@@ -14,7 +14,6 @@ class Configfile
 private:
   boolean open = true;
   File configfile;
-  StaticJsonDocument<CONFIGFILE_buffersize> doc;
   boolean haveconfig = false;
   String filename;
 
@@ -23,7 +22,8 @@ public:
   Configfile(String);
   boolean openFile(void);
   void saveConfig();
-  int loadConfig();
+  void saveConfig(DynamicJsonDocument d);
+  // int loadConfig();
   String getConfig(String);
   String getConfig(String, String);
   int getIntConfig(String, String);
@@ -37,7 +37,7 @@ public:
   void addConfig(String, double);
   void addConfig(String, long);
   void resettodefault(void);
-
+  DynamicJsonDocument load();
   //สำหรับอ่าน config
   String readConfig(String);
   //สำหรับเขียน config
