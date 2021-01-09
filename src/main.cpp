@@ -7,6 +7,7 @@ Configfile cf("/x1122.cfg");
  * 
  * Update getIntConfig with default value 
  * Add resettodefault()
+ * Use Dynamic doc
  */
 
 void setup() {

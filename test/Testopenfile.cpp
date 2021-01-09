@@ -10,6 +10,21 @@ void open(void)
 {
     TEST_ASSERT_EQUAL(false, SPIFFS.exists("/1111.cfg"));
 }
+
+void testLoad()
+{
+    Configfile cc("/xxxx.xf");
+    cc.openFile();
+    cc.addConfig("ADD", "10");
+    DynamicJsonDocument d = cc.load();
+    TEST_ASSERT_EQUAL_INT(1, d.size());
+    String s = cc.getConfig("ADD");
+    TEST_ASSERT_EQUAL_STRING("10", s.c_str());
+    d["ADD"] = "20";
+    cc.saveConfig(d);
+    s = cc.getConfig("ADD");
+    TEST_ASSERT_EQUAL_STRING("20", s.c_str());
+}
 void makedoc(void)
 {
     DynamicJsonDocument doc(2048);
@@ -138,13 +153,13 @@ void TestloadConfig()
 {
     Configfile cc("/t1.xf");
     cc.openFile();
-    cc.loadConfig();
+    DynamicJsonDocument d = cc.load();
     TEST_ASSERT_EQUAL(1, cc.openFile());
     cc.addConfig("1", "1");
     cc.addConfig("2", "2");
     cc.addConfig("3", "test");
     cc.addConfig("ssid", "forpi");
-    TEST_ASSERT_EQUAL(1, cc.loadConfig());
+    // TEST_ASSERT_EQUAL(1, cc.loadConfig());
     //  cc.loadConfig();
     TEST_ASSERT_EQUAL(4, cc.configsize());
 }
@@ -228,7 +243,7 @@ void testGetIntconfig(void)
     cc.openFile();
 
     cc.addConfig("intvalue", "1");
-    int p = cc.getIntConfig("intvalue","2");
+    int p = cc.getIntConfig("intvalue", "2");
     TEST_ASSERT_EQUAL_INT(1, p);
 }
 void testGetIntconfigbydefaultint(void)
@@ -237,7 +252,7 @@ void testGetIntconfigbydefaultint(void)
     cc.openFile();
 
     cc.addConfig("intvalueint", "2");
-    int p = cc.getIntConfig("intvalueint",2);
+    int p = cc.getIntConfig("intvalueint", 2);
     TEST_ASSERT_EQUAL_INT(2, p);
 }
 void testGetDoubleconfigbydefaultdouble(void)
@@ -246,7 +261,7 @@ void testGetDoubleconfigbydefaultdouble(void)
     cc.openFile();
 
     cc.addConfig("doublevalue", "2.2");
-    double p = cc.getDobuleConfig("doublevalue",2.2);
+    double p = cc.getDobuleConfig("doublevalue", 2.2);
     TEST_ASSERT_EQUAL_DOUBLE(2.2, p);
 }
 void setup()
@@ -258,7 +273,7 @@ void setup()
     delay(2000);
 
     UNITY_BEGIN();
-
+    RUN_TEST(testLoad);
     RUN_TEST(getDefaultAlreadyhave);
     RUN_TEST(testNull);
     RUN_TEST(testGetIntconfig);
