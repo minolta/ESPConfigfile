@@ -25,9 +25,9 @@ int Configfile::configsize(void)
 boolean Configfile::openFile(void)
 {
 #if defined(ESP32)
-    if (!SPIFFS.begin(true))
+    if (!LITTLEFS.begin(true))
     {
-        Serial.println("An Error has occurred while mounting SPIFFS");
+        Serial.println("An Error has occurred while mounting LITTLEFS");
         open = false;
         return open;
         // return;
@@ -37,9 +37,9 @@ boolean Configfile::openFile(void)
         open = true;
     }
 #else
-    if (!SPIFFS.begin())
+    if (!LITTLEFS.begin(true))
     {
-        Serial.println("An Error has occurred while mounting SPIFFS");
+        Serial.println("An Error has occurred while mounting LITTLEFS");
         open = false;
         return open;
         // return;
@@ -50,7 +50,7 @@ boolean Configfile::openFile(void)
     }
 #endif
 
-    if (SPIFFS.exists(filename.c_str()))
+    if (LITTLEFS.exists(filename.c_str()))
     {
         Serial.printf("Have file : %s", filename.c_str());
         haveconfig = true;
@@ -59,7 +59,7 @@ boolean Configfile::openFile(void)
     else
     {
         //เปิด file ใหม่
-        configfile = SPIFFS.open(filename.c_str(), "w");
+        configfile = LITTLEFS.open(filename.c_str(), "w");
         configfile.printf("%s\n", "new file");
         configfile.close();
         haveconfig = false;
@@ -163,7 +163,7 @@ double Configfile::getDobuleConfig(String valuename, String defaultvalue)
  */
 void Configfile::resettodefault(void)
 {
-    SPIFFS.remove(filename);
+    LITTLEFS.remove(filename);
     delay(1000);
 }
 double Configfile::getDobuleConfig(String valuename, double defaultvalue)
@@ -182,52 +182,21 @@ String Configfile::getConfig(String valuename, String defaultvalue)
     if (!d.containsKey(valuename))
         return defaultvalue;
     return d[valuename];
-    // Serial.printf("\n getdefault : %d %s\n", value, value);
-    // if (value.equals("null"))
-    // {
-    // return defaultvalue;
-    // }
-    // return value;
 }
 void Configfile::saveConfig()
 {
-    // File file = SPIFFS.open(filename.c_str(), "w");
-    // char buf[CONFIGFILE_buffersize];
-    // serializeJsonPretty(doc, buf, CONFIGFILE_buffersize);
-    // file.printf("%s\n", buf);
-    // file.close();
 }
 void Configfile::saveConfig(DynamicJsonDocument d)
 {
-    File file = SPIFFS.open(filename.c_str(), "w");
+    File file = LITTLEFS.open(filename.c_str(), "w");
     serializeJsonPretty(d, file);
     file.close();
 }
-// int Configfile::loadConfig()
-// {
-//     doc.clear();
-//     if (SPIFFS.exists(filename.c_str()))
-//     {
-//         File file = SPIFFS.open(filename.c_str(), "r");
-//         String b = "";
-//         while (file.available())
-//         {
-//             b = b + String(file.readStringUntil('\n'));
-//         }
-//         file.close();
-//         deserializeJson(doc, b.c_str(), CONFIGFILE_buffersize);
-//         return 1;
-//     }
-//     else
-//     {
-//         return 0;
-//     }
-// }
 
 DynamicJsonDocument Configfile::load()
 {
 
-    File file = SPIFFS.open(filename.c_str(), "r");
+    File file = LITTLEFS.open(filename.c_str(), "r");
     DynamicJsonDocument o(CONFIGFILE_buffersize);
     deserializeJson(o, file);
     file.close();

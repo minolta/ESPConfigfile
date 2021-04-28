@@ -3,12 +3,12 @@
 #include <unity.h>
 // #define UNITY_INCLUDE_DOUBLE
 // #define UNITY_DOUBLE_PRECISION 1e-12
-#include <SPIFFS.h>
+#include <LITTLEFS.h>
 #include <ArduinoJson.h>
 #include "Configfile.h"
 void open(void)
 {
-    TEST_ASSERT_EQUAL(false, SPIFFS.exists("/1111.cfg"));
+    TEST_ASSERT_EQUAL(false, LITTLEFS.exists("/1111.cfg"));
 }
 
 void testLoad()
@@ -32,16 +32,16 @@ void makedoc(void)
     doc["ssid"] = "forpi";
     doc["password"] = "1234";
 
-    if (!SPIFFS.begin(true))
+    if (!LITTLEFS.begin(true))
         ;
     return;
-    File file = SPIFFS.open("/config.cfg", "w");
+    File file = LITTLEFS.open("/config.cfg", "w");
 
     serializeJsonPretty(doc, buf, 2048);
     file.printf("%s\n", buf);
     file.close();
 
-    TEST_ASSERT_EQUAL(true, SPIFFS.exists("/config.cfg"));
+    TEST_ASSERT_EQUAL(true, LITTLEFS.exists("/config.cfg"));
 
     return;
 }
@@ -49,7 +49,7 @@ void makedoc(void)
 DynamicJsonDocument doc1(2048);
 void loadConfig()
 {
-    File file = SPIFFS.open("/config.cfg", "r");
+    File file = LITTLEFS.open("/config.cfg", "r");
     String b = "";
     while (file.available())
     {
@@ -60,7 +60,7 @@ void loadConfig()
 }
 void saveConfig()
 {
-    File file = SPIFFS.open("/config.cfg", "w");
+    File file = LITTLEFS.open("/config.cfg", "w");
     char buf[2048];
     serializeJsonPretty(doc1, buf, 2048);
     file.printf("%s\n", buf);
@@ -68,12 +68,12 @@ void saveConfig()
 }
 void readConfig(void)
 {
-    File file = SPIFFS.open("/config.cfg", "w");
+    File file = LITTLEFS.open("/config.cfg", "w");
     // char buf[2048];
     doc1["ssid"] = "forpi";
     doc1["password"] = "1234";
 
-    if (!SPIFFS.begin(true))
+    if (!LITTLEFS.begin(true))
     {
         return;
     }
@@ -293,7 +293,7 @@ void setup()
     RUN_TEST(TestAddConfig);
     RUN_TEST(TestGetvalue);
     RUN_TEST(havefile);
-    TEST_ASSERT_EQUAL(true, SPIFFS.begin(true));
+    TEST_ASSERT_EQUAL(true, LITTLEFS.begin(true));
     UNITY_END();
 }
 
