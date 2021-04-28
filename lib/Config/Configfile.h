@@ -1,9 +1,11 @@
 #ifndef CONFIGFILE_H
 #define CONFIGFILE_H
 #include <Arduino.h>
-// #include <SPIFFS.h>
 #if defined(ESP32)
-#include <SPIFFS.h>
+// #include <SPIFFS.h>
+#include <LITTLEFS.h>
+#include "FS.h"
+
 #else
 #include "FS.h"
 #endif
