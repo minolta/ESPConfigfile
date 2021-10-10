@@ -7,7 +7,8 @@
 #include "FS.h"
 
 #else
-#include "FS.h"
+#include "LittleFS.h" // LittleFS is declared
+
 #endif
 #include <ArduinoJson.h>
 #define CONFIGFILE_buffersize 2048

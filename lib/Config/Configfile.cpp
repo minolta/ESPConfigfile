@@ -36,20 +36,6 @@ boolean Configfile::openFile(void)
     {
         open = true;
     }
-#else
-    if (!LITTLEFS.begin(true))
-    {
-        Serial.println("An Error has occurred while mounting LITTLEFS");
-        open = false;
-        return open;
-        // return;
-    }
-    else
-    {
-        open = true;
-    }
-#endif
-
     if (LITTLEFS.exists(filename.c_str()))
     {
         Serial.printf("Have file : %s", filename.c_str());
@@ -65,6 +51,34 @@ boolean Configfile::openFile(void)
         haveconfig = false;
         return false;
     }
+#else
+    if (!LittleFS.begin())
+    {
+        Serial.println("An Error has occurred while mounting LITTLEFS");
+        open = false;
+        return open;
+        // return;
+    }
+    else
+    {
+        open = true;
+    }
+    if (LittleFS.exists(filename.c_str()))
+    {
+        Serial.printf("Have file : %s", filename.c_str());
+        haveconfig = true;
+        return true;
+    }
+    else
+    {
+        //เปิด file ใหม่
+        configfile = LittleFS.open(filename.c_str(), "w");
+        configfile.printf("%s\n", "new file");
+        configfile.close();
+        haveconfig = false;
+        return false;
+    }
+#endif
 }
 String Configfile::getfilename(void)
 {
@@ -163,8 +177,13 @@ double Configfile::getDobuleConfig(String valuename, String defaultvalue)
  */
 void Configfile::resettodefault(void)
 {
+#if defined(ESP32)
     LITTLEFS.remove(filename);
     delay(1000);
+#else
+    LittleFS.remove(filename);
+    delay(1000);
+#endif
 }
 double Configfile::getDobuleConfig(String valuename, double defaultvalue)
 {
@@ -188,17 +207,31 @@ void Configfile::saveConfig()
 }
 void Configfile::saveConfig(DynamicJsonDocument d)
 {
+#if defined(ESP32)
+
     File file = LITTLEFS.open(filename.c_str(), "w");
     serializeJsonPretty(d, file);
     file.close();
+#else
+    File file = LittleFS.open(filename.c_str(), "w");
+    serializeJsonPretty(d, file);
+    file.close();
+#endif
 }
 
 DynamicJsonDocument Configfile::load()
 {
-
+#if defined(ESP32)
     File file = LITTLEFS.open(filename.c_str(), "r");
     DynamicJsonDocument o(CONFIGFILE_buffersize);
     deserializeJson(o, file);
     file.close();
     return o;
+#else
+    File file = LittleFS.open(filename.c_str(), "r");
+    DynamicJsonDocument o(CONFIGFILE_buffersize);
+    deserializeJson(o, file);
+    file.close();
+    return o;
+#endif
 }
