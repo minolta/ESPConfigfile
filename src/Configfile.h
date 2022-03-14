@@ -19,9 +19,11 @@ private:
   File configfile;
   boolean haveconfig = false;
   String filename;
+  int bufferconfig = 512;
 
 public:
   Configfile();
+  void setbuffer(int);
   Configfile(String);
   boolean openFile(void);
   void saveConfig();
