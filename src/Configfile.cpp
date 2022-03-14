@@ -141,6 +141,8 @@ int Configfile::getIntConfig(String valuename)
 int Configfile::getIntConfig(String valuename, String defaultvalue)
 {
     DynamicJsonDocument d = load();
+     if (!d.containsKey(valuename))
+        return defaultvalue.toInt();
     String t = d[valuename];
     if (t)
     {
@@ -152,6 +154,8 @@ int Configfile::getIntConfig(String valuename, String defaultvalue)
 int Configfile::getIntConfig(String valuename, int defaultvalue)
 {
     DynamicJsonDocument d = load();
+     if (!d.containsKey(valuename))
+        return defaultvalue;
     String t = d[valuename];
     if (t)
     {
@@ -163,12 +167,16 @@ int Configfile::getIntConfig(String valuename, int defaultvalue)
 double Configfile::getDobuleConfig(String valuename)
 {
     DynamicJsonDocument d = load();
+     if (!d.containsKey(valuename))
+        return 0;
     String t = d[valuename];
     return t.toDouble();
 }
 double Configfile::getDobuleConfig(String valuename, String defaultvalue)
 {
     DynamicJsonDocument d = load();
+     if (!d.containsKey(valuename))
+        return defaultvalue.toDouble();
     String t = d[valuename];
     double p = t.toDouble();
     if (p == 0.00)
@@ -192,6 +200,8 @@ void Configfile::resettodefault(void)
 double Configfile::getDobuleConfig(String valuename, double defaultvalue)
 {
     DynamicJsonDocument d = load();
+     if (!d.containsKey(valuename))
+        return defaultvalue;
     String t = d[valuename];
     double p = t.toDouble();
     if (p == 0.00)
