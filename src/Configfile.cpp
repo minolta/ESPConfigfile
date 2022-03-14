@@ -13,6 +13,10 @@ boolean Configfile::haveAlreadyConfig()
 {
     return haveconfig;
 }
+void Configfile::setbuffer(int v)
+{
+    bufferconfig = v;
+}
 int Configfile::configsize(void)
 {
     DynamicJsonDocument d = load();
@@ -172,8 +176,8 @@ double Configfile::getDobuleConfig(String valuename, String defaultvalue)
     return p;
 }
 /**
- * 
- * Reset to default remove file 
+ *
+ * Reset to default remove file
  */
 void Configfile::resettodefault(void)
 {
@@ -223,13 +227,13 @@ DynamicJsonDocument Configfile::load()
 {
 #if defined(ESP32)
     File file = LITTLEFS.open(filename.c_str(), "r");
-    DynamicJsonDocument o(CONFIGFILE_buffersize);
+    DynamicJsonDocument o(bufferconfig);
     deserializeJson(o, file);
     file.close();
     return o;
 #else
     File file = LittleFS.open(filename.c_str(), "r");
-    DynamicJsonDocument o(CONFIGFILE_buffersize);
+    DynamicJsonDocument o(bufferconfig);
     deserializeJson(o, file);
     file.close();
     return o;
