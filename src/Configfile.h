@@ -1,6 +1,7 @@
 #ifndef CONFIGFILE_H
 #define CONFIGFILE_H
 #include <Arduino.h>
+#include <ESPAsyncWebServer.h>
 #if defined(ESP32)
 // #include <SPIFFS.h>
 #include <LITTLEFS.h>
@@ -42,6 +43,8 @@ public:
   void addConfig(String, double);
   void addConfig(String, long);
   void resettodefault(void);
+  void setconfigwww(AsyncWebServerRequest *request);
+  void allconfigwww(AsyncWebServerRequest *request);
   DynamicJsonDocument load();
   //สำหรับอ่าน config
   String readConfig(String);

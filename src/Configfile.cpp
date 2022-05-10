@@ -8,7 +8,25 @@ Configfile::Configfile(String c)
 {
     filename = c;
 }
-
+void Configfile::setconfigwww(AsyncWebServerRequest *request)
+{
+    if (request->hasArg("configname"))
+    {
+        String configname = request->arg("configname");
+        String value = request->arg("value");
+        this->addConfig(configname, value);
+        request->send(200, "application/json", "{\"Update\":\"" + configname + "\",\"to\":" + value + "\"}");
+    }
+    else
+        request->send(500, "application/json", "{\"ERROR\":\"Noupdate\"}");
+}
+void Configfile::allconfigwww(AsyncWebServerRequest *request)
+{
+    DynamicJsonDocument d = this->getAll();
+    char buf[bufferconfig];
+    serializeJson(d, buf, bufferconfig);
+    request->send(200, "application/json", buf);
+}
 boolean Configfile::haveAlreadyConfig()
 {
     return haveconfig;
@@ -141,7 +159,7 @@ int Configfile::getIntConfig(String valuename)
 int Configfile::getIntConfig(String valuename, String defaultvalue)
 {
     DynamicJsonDocument d = load();
-     if (!d.containsKey(valuename))
+    if (!d.containsKey(valuename))
         return defaultvalue.toInt();
     String t = d[valuename];
     if (t)
@@ -154,7 +172,7 @@ int Configfile::getIntConfig(String valuename, String defaultvalue)
 int Configfile::getIntConfig(String valuename, int defaultvalue)
 {
     DynamicJsonDocument d = load();
-     if (!d.containsKey(valuename))
+    if (!d.containsKey(valuename))
         return defaultvalue;
     String t = d[valuename];
     if (t)
@@ -167,7 +185,7 @@ int Configfile::getIntConfig(String valuename, int defaultvalue)
 double Configfile::getDobuleConfig(String valuename)
 {
     DynamicJsonDocument d = load();
-     if (!d.containsKey(valuename))
+    if (!d.containsKey(valuename))
         return 0;
     String t = d[valuename];
     return t.toDouble();
@@ -175,7 +193,7 @@ double Configfile::getDobuleConfig(String valuename)
 double Configfile::getDobuleConfig(String valuename, String defaultvalue)
 {
     DynamicJsonDocument d = load();
-     if (!d.containsKey(valuename))
+    if (!d.containsKey(valuename))
         return defaultvalue.toDouble();
     String t = d[valuename];
     double p = t.toDouble();
@@ -200,7 +218,7 @@ void Configfile::resettodefault(void)
 double Configfile::getDobuleConfig(String valuename, double defaultvalue)
 {
     DynamicJsonDocument d = load();
-     if (!d.containsKey(valuename))
+    if (!d.containsKey(valuename))
         return defaultvalue;
     String t = d[valuename];
     double p = t.toDouble();
