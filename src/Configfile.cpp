@@ -8,6 +8,7 @@ Configfile::Configfile(String c)
 {
     filename = c;
 }
+#if defined(ESP32)
 void Configfile::setconfigwww(AsyncWebServerRequest *request)
 {
     if (request->hasArg("configname"))
@@ -27,6 +28,7 @@ void Configfile::allconfigwww(AsyncWebServerRequest *request)
     serializeJson(d, buf, bufferconfig);
     request->send(200, "application/json", buf);
 }
+#endif
 boolean Configfile::haveAlreadyConfig()
 {
     return haveconfig;

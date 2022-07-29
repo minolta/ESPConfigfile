@@ -1,12 +1,12 @@
 #ifndef CONFIGFILE_H
 #define CONFIGFILE_H
 #include <Arduino.h>
-#include <ESPAsyncWebServer.h>
+
 #if defined(ESP32)
+#include <ESPAsyncWebServer.h>
 // #include <SPIFFS.h>
 #include <LITTLEFS.h>
 #include "FS.h"
-
 #else
 #include "LittleFS.h" // LittleFS is declared
 
@@ -43,8 +43,10 @@ public:
   void addConfig(String, double);
   void addConfig(String, long);
   void resettodefault(void);
+#if defined(ESP32)
   void setconfigwww(AsyncWebServerRequest *request);
   void allconfigwww(AsyncWebServerRequest *request);
+#endif
   DynamicJsonDocument load();
   //สำหรับอ่าน config
   String readConfig(String);
