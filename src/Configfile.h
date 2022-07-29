@@ -43,6 +43,7 @@ public:
   void addConfig(String, double);
   void addConfig(String, long);
   void resettodefault(void);
+  int getBuffersize(void);
 #if defined(ESP32)
   void setconfigwww(AsyncWebServerRequest *request);
   void allconfigwww(AsyncWebServerRequest *request);

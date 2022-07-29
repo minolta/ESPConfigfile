@@ -264,36 +264,46 @@ void testGetDoubleconfigbydefaultdouble(void)
     double p = cc.getDobuleConfig("doublevalue", 2.2);
     TEST_ASSERT_EQUAL_DOUBLE(2.2, p);
 }
+void Testwrfile(void)
+{
+    Configfile cc("/testrw.cfg");
+    cc.openFile();
+
+    cc.addConfig("doublevalue", "2.2");
+    double p = cc.getDobuleConfig("doublevalue", 2.2);
+    TEST_ASSERT_EQUAL_DOUBLE(2.2, p);
+}
 void setup()
 {
 
     Serial.begin(9600);
     // NOTE!!! Wait for >2 secs
     // if board doesn't support software reset via Serial.DTR/RTS
-    delay(2000);
+    // delay(2000);
 
     UNITY_BEGIN();
-    RUN_TEST(testLoad);
-    RUN_TEST(getDefaultAlreadyhave);
-    RUN_TEST(testNull);
-    RUN_TEST(testGetIntconfig);
-    RUN_TEST(testGetIntconfigbydefaultint);
-    RUN_TEST(testGetDoubleconfigbydefaultdouble);
-    RUN_TEST(testDoublenull);
-    RUN_TEST(addInt);
-    RUN_TEST(addDouble);
-    RUN_TEST(TestloadConfig);
-    RUN_TEST(getDefault);
-    RUN_TEST(open);
-    RUN_TEST(Testloadall);
-    RUN_TEST(getFilename);
-    RUN_TEST(readValue);
-    RUN_TEST(makedoc);
-    RUN_TEST(readConfig);
-    RUN_TEST(TestAddConfig);
-    RUN_TEST(TestGetvalue);
-    RUN_TEST(havefile);
-    TEST_ASSERT_EQUAL(true, LITTLEFS.begin(true));
+    RUN_TEST(Testwrfile);
+    // RUN_TEST(testLoad);
+    // RUN_TEST(getDefaultAlreadyhave);
+    // RUN_TEST(testNull);
+    // RUN_TEST(testGetIntconfig);
+    // RUN_TEST(testGetIntconfigbydefaultint);
+    // RUN_TEST(testGetDoubleconfigbydefaultdouble);
+    // RUN_TEST(testDoublenull);
+    // RUN_TEST(addInt);
+    // RUN_TEST(addDouble);
+    // RUN_TEST(TestloadConfig);
+    // RUN_TEST(getDefault);
+    // RUN_TEST(open);
+    // RUN_TEST(Testloadall);
+    // RUN_TEST(getFilename);
+    // RUN_TEST(readValue);
+    // RUN_TEST(makedoc);
+    // RUN_TEST(readConfig);
+    // RUN_TEST(TestAddConfig);
+    // RUN_TEST(TestGetvalue);
+    // RUN_TEST(havefile);
+    // TEST_ASSERT_EQUAL(true, LITTLEFS.begin(true));
     UNITY_END();
 }
 

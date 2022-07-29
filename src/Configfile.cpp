@@ -72,7 +72,7 @@ boolean Configfile::openFile(void)
         configfile = LITTLEFS.open(filename.c_str(), "w");
         configfile.printf("%s\n", "new file");
         configfile.close();
-        haveconfig = false;
+        haveconfig = true;
         return false;
     }
 #else
@@ -99,7 +99,7 @@ boolean Configfile::openFile(void)
         configfile = LittleFS.open(filename.c_str(), "w");
         configfile.printf("%s\n", "new file");
         configfile.close();
-        haveconfig = false;
+        haveconfig = true;
         return false;
     }
 #endif
@@ -244,15 +244,18 @@ void Configfile::saveConfig(DynamicJsonDocument d)
 #if defined(ESP32)
 
     File file = LITTLEFS.open(filename.c_str(), "w");
-    serializeJsonPretty(d, file);
+    serializeJson(d, file);
     file.close();
 #else
     File file = LittleFS.open(filename.c_str(), "w");
-    serializeJsonPretty(d, file);
+    serializeJson(d, file);
     file.close();
 #endif
 }
-
+int Configfile::getBuffersize()
+{
+    return bufferconfig;
+}
 DynamicJsonDocument Configfile::load()
 {
 #if defined(ESP32)
