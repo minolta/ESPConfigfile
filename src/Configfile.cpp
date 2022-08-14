@@ -115,6 +115,10 @@ void Configfile::addConfig(String valuename, String value)
     {
         DynamicJsonDocument d = load();
         d[valuename] = value;
+        // = value;
+        Serial.printf("xxxxxxxxxxxxxx Size %d xxxxxxxxxxxxxxxx",d.capacity());
+        serializeJsonPretty(d, Serial);
+        Serial.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         saveConfig(d);
     }
 }
@@ -135,6 +139,12 @@ void Configfile::addConfig(String valuename, double value)
 {
     DynamicJsonDocument d = load();
     d[valuename] = value;
+    saveConfig(d);
+}
+void Configfile::remove(String key)
+{
+    DynamicJsonDocument d = load();
+    d.remove(key);
     saveConfig(d);
 }
 DynamicJsonDocument Configfile::getAll()
@@ -248,6 +258,8 @@ void Configfile::saveConfig(DynamicJsonDocument d)
     file.close();
 #else
     File file = LittleFS.open(filename.c_str(), "w");
+    // serializeJsonPretty(d, Serial);
+    // Serial.println(d);
     serializeJson(d, file);
     file.close();
 #endif

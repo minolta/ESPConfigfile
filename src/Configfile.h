@@ -29,6 +29,7 @@ public:
   boolean openFile(void);
   void saveConfig();
   void saveConfig(DynamicJsonDocument d);
+  void remove(String key);
   // int loadConfig();
   String getConfig(String);
   String getConfig(String, String);
