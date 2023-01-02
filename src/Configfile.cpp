@@ -111,8 +111,8 @@ String Configfile::getfilename(void)
 void Configfile::addConfig(String valuename, String value)
 {
     // doc.clear();
-    if (haveconfig)
-    {
+    // if (haveconfig)
+    // {
         DynamicJsonDocument d = load();
         d[valuename] = value;
         // = value;
@@ -120,7 +120,7 @@ void Configfile::addConfig(String valuename, String value)
         serializeJsonPretty(d, Serial);
         Serial.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         saveConfig(d);
-    }
+    // }
 }
 void Configfile::addConfig(String valuename, int value)
 {
