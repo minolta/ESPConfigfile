@@ -22,23 +22,23 @@ Configfile cfg("/config.cfg"); // "/config.cfg" เป็นชื่อที�
 
 </code>
   <h1>เวลาดึงข้อมูลจาก file</h1>
-
+<code>
   String config =  cfg.getConfig("configname","defaultifnotfound");
 
   int configint = cfg.getIntConfig("configname",10); //ถ้าไม่มี configname จะได้ 10 มาแทน
   double configdobuleorfloat = cfg.getDoubleConfig("configname",33.22);
-
+</code>
   <h1>เพิ่ม config</h1>
 
-  
+  <code>
   cfg.setConfig("configname","value"); //ถ้ามีอยู่แล้วจะเขียนทับอันเดิมถ้าไม่มีจะเพิ่มใหม่
-
+  </code>
 
   <h1>ดึงขอมูลทั้งออกมาเป็น json</h1>
-
+<code>
   DynamicJsonDocument dy = cfg.getAll();
   JsonObject documentRoot = dy.as<JsonObject>();
-
+</code>
 <h1>remove config</h1>
 
 cfg.remove("configname");
