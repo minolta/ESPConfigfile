@@ -27,8 +27,8 @@ Configfile *c;
 c = new Configfile("/c");
 c->setbuffer(2024);
 c->openFile();
-c->getIntConfig("configname",10);
-c->getDoubleConfig("floatconfigname"); //get without default
+int intvaluewithdefault = c->getIntConfig("configname",10);
+float v = c->getDoubleConfig("floatconfigname"); //get without default
 ```
 <h1>เวลาดึงข้อมูลจาก file</h1>
 
