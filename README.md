@@ -6,7 +6,7 @@
 lib_deps = https://github.com/minolta/ESPConfigfile.git
 
 <h1>วิธีใช้</h1>
-
+<code>
 #include "Configfile.h"
 
 
@@ -20,7 +20,7 @@ Configfile cfg("/config.cfg"); // "/config.cfg" เป็นชื่อที�
     initconfig(); //ถ้าเป็น file ใหม่จะ return flase ตอน ope
   }
 
-
+</code>
   <h1>เวลาดึงข้อมูลจาก file</h1>
 
   String config =  cfg.getConfig("configname","defaultifnotfound");
