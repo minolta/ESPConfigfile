@@ -13,6 +13,8 @@ lib_deps = https://github.com/minolta/ESPConfigfile.git
 
 Configfile cfg("/config.cfg"); // "/config.cfg" เป็นชื่อที่เราจะเก็บ config
 Configfile cfg1("/config1.cfg");
+Configfile *c;
+
 
 
   cfg.setbuffer(configsize); //configzie เป็นขนาดของ buffer
@@ -21,6 +23,12 @@ Configfile cfg1("/config1.cfg");
   {
     initconfig(); //ถ้าเป็น file ใหม่จะ return flase ตอน ope
   }
+
+c = new Configfile("/c");
+c->setbuffer(2024);
+c->openFile();
+c->getIntConfig("configname",10);
+c->getDoubleConfig("floatconfigname"); //get without default
 ```
 <h1>เวลาดึงข้อมูลจาก file</h1>
 
