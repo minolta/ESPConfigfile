@@ -11,14 +11,17 @@ lib_deps = https://github.com/minolta/ESPConfigfile.git
 
 
 Configfile cfg("/config.cfg"); // "/config.cfg" เป็นชื่อที่เราจะเก็บ config
-
+Configfile cfg1("/config1.cfg");
 
 
   cfg.setbuffer(configsize); //configzie เป็นขนาดของ buffer
+  cfg1.setbuffer(200); //small config file 200 byte
   if (!cfg.openFile())
   {
     initconfig(); //ถ้าเป็น file ใหม่จะ return flase ตอน ope
   }
+
+  
 
 </code>
   <h1>เวลาดึงข้อมูลจาก file</h1>
