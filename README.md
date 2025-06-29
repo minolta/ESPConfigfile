@@ -49,6 +49,17 @@ double configdobuleorfloat = cfg.getDoubleConfig("configname",33.22);  ```
  ```cpp
   DynamicJsonDocument dy = cfg.getAll();
   JsonObject documentRoot = dy.as<JsonObject>();
+  String tr = "";
+    for (JsonPair keyValue : documentRoot)
+    {
+      String v = dy[keyValue.key()];
+      String k = keyValue.key().c_str();
+      tr += "<tr><td>" + k + "</td><td> <label id=" + k + "value>" + v + "</label> </td> <td> <input id = " + k + " value =\"" + v + "\"></td><td><button id=btn onClick=\"setvalue(this,'" + k + "','" + v + "')\">Set</button></td><td><button id=btn onClick=\"remove('" + k + "')\">Remove</button></td></tr>";
+    }
+    tr += "<tr><td>heap</td><td colspan=4>" + String(ESP.getFreeHeap()) + "</td></tr>";
+
+
+  String getsomevalue = documentRoot["configname"];
 ```
 
 <h1>remove config</h1>
