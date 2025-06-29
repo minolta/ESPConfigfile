@@ -37,7 +37,7 @@ Configfile cfg1("/config1.cfg");
   cfg.setConfig("configname","value"); //ถ้ามีอยู่แล้วจะเขียนทับอันเดิมถ้าไม่มีจะเพิ่มใหม่
   </code>
 
-  <h1>ดึงขอมูลทั้งออกมาเป็น json</h1>
+  <h1>ดึงขอมูลทั้งหมดออกมาเป็น json</h1>
 <code>
   DynamicJsonDocument dy = cfg.getAll();
   JsonObject documentRoot = dy.as<JsonObject>();
