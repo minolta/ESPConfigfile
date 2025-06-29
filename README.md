@@ -1,4 +1,4 @@
-<h1>ใช้สำหรับบันทึก config ต่างๆลงใน file</h1>
+<h1>ใช้สำหรับบันทึก config ต่างๆลงใน file สำหรับ esp 8266 esp32</h1>
 
 <h1>use</h1>
 แก้ใข platformio.ini
