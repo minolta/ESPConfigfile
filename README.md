@@ -7,7 +7,7 @@ lib_deps = https://github.com/minolta/ESPConfigfile.git
 
 <h1>วิธีใช้</h1>
 
-  ```cpp
+```cpp
 #include "Configfile.h"
 
 
@@ -21,27 +21,30 @@ Configfile cfg1("/config1.cfg");
   {
     initconfig(); //ถ้าเป็น file ใหม่จะ return flase ตอน ope
   }
-
-  
 ```
-  <h1>เวลาดึงข้อมูลจาก file</h1>
-  ```cpp
-  String config =  cfg.getConfig("configname","defaultifnotfound");
+<h1>เวลาดึงข้อมูลจาก file</h1>
 
-  int configint = cfg.getIntConfig("configname",10); //ถ้าไม่มี configname จะได้ 10 มาแทน
-  double configdobuleorfloat = cfg.getDoubleConfig("configname",33.22);  ```
+```cpp
+String config =  cfg.getConfig("configname","defaultifnotfound");
+int configint = cfg.getIntConfig("configname",10); //ถ้าไม่มี configname จะได้ 10 มาแทน
+double configdobuleorfloat = cfg.getDoubleConfig("configname",33.22);  ```
+```
 
-  <h1>เพิ่ม config</h1>
- ```cpp
+<h1>เพิ่ม config</h1>
+
+```cpp  
   cfg.setConfig("configname","value"); //ถ้ามีอยู่แล้วจะเขียนทับอันเดิมถ้าไม่มีจะเพิ่มใหม่
 ```
 
   <h1>ดึงขอมูลทั้งหมดออกมาเป็น json</h1>
+ 
  ```cpp
   DynamicJsonDocument dy = cfg.getAll();
   JsonObject documentRoot = dy.as<JsonObject>();
 ```
+
 <h1>remove config</h1>
+ 
  ```cpp
 cfg.remove("configname");
 
