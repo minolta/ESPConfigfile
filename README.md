@@ -1,5 +1,9 @@
 <h1>ใช้สำหรับบันทึก config ต่างๆลงใน file</h1>
 
+<h1>use</h1>
+แก้ใข platformio.ini
+
+lib_deps = https://github.com/minolta/ESPConfigfile.git
 
 <h1>วิธีใช้</h1>
 
