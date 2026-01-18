@@ -49,7 +49,7 @@ int Configfile::configsize(void)
 boolean Configfile::openFile(void)
 {
 #if defined(ESP32)
-    if (!LITTLEFS.begin(true))
+    if (!LittleFS.begin(true))
     {
         Serial.println("An Error has occurred while mounting LITTLEFS");
         open = false;
@@ -60,7 +60,7 @@ boolean Configfile::openFile(void)
     {
         open = true;
     }
-    if (LITTLEFS.exists(filename.c_str()))
+    if (LittleFS.exists(filename.c_str()))
     {
         Serial.printf("Have file : %s", filename.c_str());
         haveconfig = true;
@@ -69,7 +69,7 @@ boolean Configfile::openFile(void)
     else
     {
         //เปิด file ใหม่
-        configfile = LITTLEFS.open(filename.c_str(), "w");
+        configfile = LittleFS.open(filename.c_str(), "w");
         configfile.printf("%s\n", "new file");
         configfile.close();
         haveconfig = true;
@@ -220,7 +220,7 @@ double Configfile::getDobuleConfig(String valuename, String defaultvalue)
 void Configfile::resettodefault(void)
 {
 #if defined(ESP32)
-    LITTLEFS.remove(filename);
+    LittleFS.remove(filename);
     delay(1000);
 #else
     LittleFS.remove(filename);
@@ -253,7 +253,7 @@ void Configfile::saveConfig(DynamicJsonDocument d)
 {
 #if defined(ESP32)
 
-    File file = LITTLEFS.open(filename.c_str(), "w");
+    File file = LittleFS.open(filename.c_str(), "w");
     serializeJson(d, file);
     file.close();
 #else
@@ -271,7 +271,7 @@ int Configfile::getBuffersize()
 DynamicJsonDocument Configfile::load()
 {
 #if defined(ESP32)
-    File file = LITTLEFS.open(filename.c_str(), "r");
+    File file = LittleFS.open(filename.c_str(), "r");
     DynamicJsonDocument o(bufferconfig);
     deserializeJson(o, file);
     file.close();
